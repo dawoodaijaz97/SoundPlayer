@@ -1,0 +1,41 @@
+
+
+description:
+
+1.A Project contains multiple playlist,1 or many
+2.Each project have its own html page.
+3.A Playlist contains multiple tracks
+4.A track constrains a single sound
+
+
+
+
+steps to add a new Project(previously Playlist)
+
+
+
+(the following steps should be done in main.js)
+0.Add the (Exact) name of new project in "projects" array in main.js ex(projects.push("Name of new project"));
+
+
+(the following steps should be done in playlist.js)
+0.Create a new Playlist array ex(playlistList = [])
+1.Create new track array newTracks = []
+2.Add songs to new tracks array EX(newTracks.push(new Track(name of track,path to track))).Repeat for each track
+3.Create a new playlist newPlaylist = new Playlist(name of playlist,img url,some text,tracks array)
+4.Add the newly created playlist to the playlistList array Ex(playlistList.push(newPlaylist))
+5.Create a new Project EX(let newProject = new Project("name",playlistList))
+5.After creating new project in playlist.js.Create a new "HTML" file in "projects" directory.The name of the
+  new HTML file should match the "Exact" name of the project
+6.Copy the content from "template.html" and add it to the newly created HTML file
+7.To add custom styling to an "HTML" add a link tag in your "playlist.html".You can define your layout Optional
+
+Note:
+The following program you the freedom to define your layout and add your html
+Each playlist "html" can have its own layout and styling
+
+can add but not make changes in the existing html
+Add custom HTML "below or above the <div class=container> element"
+
+
+

@@ -1,0 +1,184 @@
+body {
+    font-family: 'Poiret One', cursive;
+
+    background-color: #0d1c29;
+}
+
+.songCard {
+    background-color: #1c262e;
+    height: 110px;
+    width: 670px;
+    border-bottom: 2px solid #007066;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+    margin:0;
+}
+
+
+.songCard:hover{
+    background-color: #1c262e;
+    transform: translateY(8px);
+    transform: Scale(1.03);
+
+    transition: transform 200ms;
+    border-bottom: 2px solid #007066;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2)
+
+}
+
+.heading {
+    border-bottom: 2px solid #007066;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.index {
+    margin-left: 5px;
+}
+
+.title {
+    color: beige;
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+
+}
+
+.btn {
+    float: left;
+    background-color: #007066;
+    width: 50px;
+    height: 60px;
+    border: none;
+    display: block;
+}
+
+.btn:hover {
+    background-color: #00483f;
+transition:background-color 200ms;
+}
+
+.btn i {
+    font-size: 25px;
+    color: rgba(30, 30, 30, 0.91);
+    display: inline-block;
+}
+
+.btn:hover i {
+    color: beige;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.container {
+
+}
+
+.mainTitle {
+    font-size: 75px;
+    text-align: center;
+    color: #007066;
+    text-decoration: underline;
+}
+
+.avatar img {
+    width: 200px;
+    height: 200px;
+    border-radius: 150px;
+    display:block;
+    margin: -60px auto 100px;
+}
+
+.avatar img:hover {
+    width: 200px;
+    height: 200px;
+    border-radius: 150px;
+    display:block;
+    margin: -60px auto auto;
+    transform: Scale(1.15);
+    transition: transform 300ms;
+}
+
+/*playlist styles*/
+
+#playlistList{
+    width: 670px!important;
+    margin: 0 auto;
+}
+
+.playlistName{
+    color: #007066;
+    font-size:25px;
+}
+.playlistDesc{
+    color: beige;
+    margin-bottom:90px;
+    padding: 5px;
+}
+
+.playlistCard{
+    height: auto;
+    width: 670px;
+    padding-bottom: 50px;
+    border-bottom: 2px solid beige;
+}
+.meta{
+
+    width: 500px;
+    margin:0 auto;
+}
+.playlistName{
+    text-align: center;
+}
+
+.playlistCard img{
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 8px;
+
+}
+.wave{
+    height: 60px!important;
+}
+
+
+
+/*menu styles*/
+
+
+.navContainer{
+    width: 510px;
+    margin: 60px auto auto;
+}
+
+
+.menuItem a{
+    text-decoration: none;
+    height: 50px!important;
+
+}
+.menuItem p{
+    text-align: center;
+    color: beige;
+    font-size: 20px;
+    vertical-align: center;
+    padding-bottom: 8px;
+    padding-top:8px;
+    background-color: #004d43;
+    width: 510px;
+    margin: 20px auto auto;
+    box-shadow: 6px 6px rgba(0, 0, 0, 0.15);
+
+
+}
+
+.menuItem p:hover {
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #00473d;
+    transform: Scale(1.02);
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.15);
+    transition: background-color,transform,box-shadow, 200ms;
+}
