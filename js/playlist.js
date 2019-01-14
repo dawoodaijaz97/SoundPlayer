@@ -5,7 +5,6 @@ var Track = function (name, path, howl) { //Track Object,The Object represent ea
     this.name = name; // Name of the track
     this.name2 = name.replace(/[^A-Z0-9]/ig, ""); //name of the track after after removing spaces and special characters from the track name
     this.path = path; //URL or permalink to the audio file Ex (audio/alive.mp3 or https://web006.mp3-youtube.download/tmp/20190107105311_20496a94-d44b-4e28-95bb-06a2c6063b3a/krewella-alive-video?md5=rEvap_kahikTI3DddnKuoQ&expires=1546858417)
-    this.howl = howl; //The howler object for each track stores the actual player
 
 };
 
@@ -27,7 +26,8 @@ var Project = function(name,playlistList){
 
 //start adding the content from here
 
-let track1Path = "../audio/Trouble On My Mind.mp3";
+// let track1Path = "../audio/Trouble On My Mind.mp3";
+let track1Path = "https://wavesurfer-js.org/example/media/demo.wav";
 let track2Path = "../audio/Alive.mp3";
 let track3Path = "../audio/Beats.mp3";
 let track4Path = "../audio/Buzz.mp3";
@@ -162,7 +162,6 @@ var createSongCard = function (playlistName, track, i) {
     card.find(".wave").attr("id", track.name2 + "Player"); //set the wave container to track.name2+"Player"
     let button = card.find("button");
     button.attr("id", track.name2);
-    createHowl(track);//create howler object for the track
     button.on("click", function () { //add event listener to play button
         if ($(this).hasClass("play")) { //check if it is play button
             let buttons = $("button");
@@ -183,18 +182,16 @@ var createSongCard = function (playlistName, track, i) {
             for(let x = 0;x<project.playlistList.length;x++){  //stop every other track that was playing when some track was played
                 let playlist = project.playlistList[x];
                 for(let y= 0;y<playlist.tracks.length;y++){
-                    playlist.tracks[y].howl.stop(); //stop howler sound
+
                     playlist.tracks[y].wave.stop();// stop waveform animation
                     console.log("x");
                 }
             }
-            track.howl.play();//play the track
             track.wave.play();//start waveform animation
         }
         else if ($(this).hasClass("stop")) { //it it has stop class
             $(this).removeClass("stop").addClass("play"); //remove stop class and add play class to the button
             $(this).find("i").removeClass("fa-stop").addClass("fa-play");//change to icon from stop to play
-            track.howl.stop(); //stop howler sound
             track.wave.stop();//stop waveform animation
         }
 
@@ -202,18 +199,7 @@ var createSongCard = function (playlistName, track, i) {
 
     return card;
 };
-//create howl object for the track
-var createHowl = function (track) {
-    track.howl = new Howl({
-        src: [track.path], //path to the song
-        autoplay: false,//autoplay true or false
-        loop: false,//should loop after completion true of false
-        volume: 1,//volume (1-0)
-        ctx: true, //expose audio context
-        masterGain: true,
-        preload: true
-    });
-};
+
 
 //create waveform object for each track
 var createWave = function (playlist, track) {
@@ -228,27 +214,23 @@ var createWave = function (playlist, track) {
         height: 60,//height for the wave
         progressColor: "#F5F5DC",//color of progress
         cursorColor: "#007066",//cursor color
+        backend: 'MediaElement'
 
     });
     waveSurfer.on('ready', function () {
-        waveSurfer.setMute(true);
+        waveSurfer.stop();
         console.log("ready");
     });
 
     waveSurfer.on("finish", function () {
         console.log("finish");
         waveSurfer.seekTo(0);
-        track.howl.stop();
-        track.howl.seek(0);
+    });
+    waveSurfer.on("seek",function (seek) {
+       console.log("seek"+seek);
     });
 
 
-    waveSurfer.on("seek", function (progress) {
-        console.log("seeking");
-        let seek = progress * track.howl.duration();
-        console.log("seek" + seek);
-        track.howl.seek(seek);
-    });
 
 
     track.wave = waveSurfer;
