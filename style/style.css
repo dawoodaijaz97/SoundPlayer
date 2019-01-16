@@ -4,76 +4,13 @@ body {
     background-color: #0d1c29;
 }
 
-.songCard {
-    background-color: #1c262e;
-    height: 110px;
-    width: 670px;
-    border-bottom: 2px solid #007066;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
-    margin:0;
-}
-
-
-.songCard:hover{
-    background-color: #1c262e;
-    transform: translateY(8px);
-    transform: Scale(1.03);
-
-    transition: transform 200ms;
-    border-bottom: 2px solid #007066;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.2)
-
-}
-
-.heading {
-    border-bottom: 2px solid #007066;
-    font-family: 'Orbitron', sans-serif;
-}
-
-.index {
-    margin-left: 5px;
-}
-
-.title {
-    color: beige;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: center;
-
-}
-
-.btn {
-    float: left;
-    background-color: #007066;
-    width: 50px;
-    height: 60px;
-    border: none;
-    display: block;
-}
-
-.btn:hover {
-    background-color: #00483f;
-transition:background-color 200ms;
-}
-
-.btn i {
-    font-size: 25px;
-    color: rgba(30, 30, 30, 0.91);
-    display: inline-block;
-}
-
-.btn:hover i {
-    color: beige;
-}
 
 ul {
     list-style: none;
     padding: 0;
 }
 
-.container {
 
-}
 
 .mainTitle {
     font-size: 75px;
@@ -115,13 +52,16 @@ ul {
     color: beige;
     margin-bottom:90px;
     padding: 5px;
+    text-align: center;
 }
 
 .playlistCard{
     height: auto;
-    width: 670px;
+    width: 55%;
+    max-height: 600px;
     padding-bottom: 50px;
     border-bottom: 2px solid beige;
+    margin: 0 auto;
 }
 .meta{
 
@@ -135,8 +75,8 @@ ul {
 .playlistCard img{
     width: 100px;
     height: 100px;
-    float: left;
-    margin-right: 8px;
+    display: block;
+    margin: 0 auto;
 
 }
 .wave{
@@ -181,4 +121,118 @@ ul {
     transform: Scale(1.02);
     box-shadow: 5px 5px rgba(0, 0, 0, 0.15);
     transition: background-color,transform,box-shadow, 200ms;
+}
+
+/*fixed player container styles*/
+
+.playerCont{
+    position: fixed;
+    top:100px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-color: rgba(0, 169, 255, 0.31);
+    width: 60%;
+    max-width: 750px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+
+.playerCont .heading{
+    height: 45px !important;
+}
+
+.playerCont .title {
+
+    display: inline-block;
+    font-family: 'Poiret One', cursive;
+    margin: 0;
+    padding-top: 2px;
+    padding-left: 2px;
+    color: white;
+    font-size: 22px;
+    transform: translateY(6px)translateX(5px);
+
+}
+.playerCont .duration{
+    display: inline-block;
+    font-family: 'Poiret One', cursive;
+    color: beige;
+    font-weight: bold;
+    margin-top: auto;
+    margin-bottom: auto;
+    transform: translateY(12px)translateX(-15px);
+    float: right;
+}
+.playerCont .wave{
+    height: 60px;
+    background-color: rgb(70, 94, 119);
+}
+
+/*song card styles*/
+
+.songCard {
+    background-color: #1c262e;
+    height: 50px;
+    width: 100%;
+    max-width: 600px;
+    border-bottom: 2px solid #007066;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 auto 10px;
+
+}
+
+
+.songCard:hover{
+    background-color: #1c262e;
+    transform: translateY(8px);
+    transform: Scale(1.03);
+
+    transition: transform 200ms;
+    border-bottom: 2px solid #007066;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2)
+
+}
+
+.songCard .title {
+    font-family: 'Poiret One', cursive;
+    color: beige;
+    font-size: 22px;
+    font-weight: 500;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    transform: translateY(12px);
+}
+
+.index {
+    margin-left: 5px;
+}
+
+
+
+.btn {
+    float: left;
+    background-color: #007066;
+    width: 50px;
+    height: 50px;
+    border: none;
+    display: block;
+    padding: 0;
+}
+
+.btn:hover {
+    background-color: #00483f;
+    transition:background-color 200ms;
+}
+
+.btn i {
+    font-size: 25px;
+    color: rgba(30, 30, 30, 0.91);
+    display: inline-block;
+}
+
+.btn:hover i {
+    color: beige;
 }

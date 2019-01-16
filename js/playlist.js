@@ -1,11 +1,73 @@
 let projects = []; //list of projects
 
 
-var Track = function (name, path, howl) { //Track Object,The Object represent each Audio or Track
+let createWave = function () {
+    let waveSurfer = WaveSurfer.create({
+        container: ".playerCont .wave", //the container in which the waveform is drawn
+        hideScrollbar: true,//hide the scroll bar for the wave
+        autoCenter: true,
+        fillParent: true,
+        height: 60,//height for the wave
+        progressColor: "#F5F5DC",//color of progress
+        cursorColor: "#007066",//cursor color
+        backend: 'MediaElement',
+        responsive: true,
+
+    });
+    waveSurfer.on('ready', function () {
+        console.log("ready");
+        waveSurfer.play();
+    });
+
+    waveSurfer.on("finish", function () {
+        console.log("finish");
+        waveSurfer.seekTo(0);
+    });
+    waveSurfer.on("seek", function (seek) {
+        console.log("seek" + seek);
+    });
+    waveSurfer.on("audioprocess", function () {
+
+        let Tduration = wave.getDuration();
+        let progress = wave.getCurrentTime();
+        let durationP = $(".playerCont").find(".duration");
+        let min;
+        if(progress/60 <0){
+            min =0;
+        }else{
+            min = Math.floor(progress/60);
+        }
+        let sec = Math.floor(progress%60);
+
+        let tMin = Math.floor(Tduration/60);
+        let tSec = Math.floor(Tduration%60);
+
+        durationP.text(min+":"+sec+" | "+tMin+":"+tSec);
+
+    });
+    waveSurfer.on("stop", function () {
+        console.log("stop");
+    });
+
+
+    return waveSurfer;
+}
+
+var setPlayer = function (track) {
+
+    let playerCont = $(".playerCont");
+    playerCont.find(".title").text(track.name);
+
+
+};
+
+
+var wave;
+
+var Track = function (name, path) { //Track Object,The Object represent each Audio or Track
     this.name = name; // Name of the track
     this.name2 = name.replace(/[^A-Z0-9]/ig, ""); //name of the track after after removing spaces and special characters from the track name
     this.path = path; //URL or permalink to the audio file Ex (audio/alive.mp3 or https://web006.mp3-youtube.download/tmp/20190107105311_20496a94-d44b-4e28-95bb-06a2c6063b3a/krewella-alive-video?md5=rEvap_kahikTI3DddnKuoQ&expires=1546858417)
-
 };
 
 
@@ -18,7 +80,7 @@ var Playlist = function (name, imgUrl, text, tracks) { // Playlist Object,The ob
 };
 
 //represents a Project object,Each object has a sing or multiple playlist
-var Project = function(name,playlistList){
+var Project = function (name, playlistList) {
     this.name = name; //name of the project
     this.playlistList = playlistList; //list of playlist in a project (A project can have 1 or multiple playlist)
 };
@@ -37,26 +99,24 @@ let track7Path = "../audio/Trance.mp3";
 let track8Path = "../audio/back in black.mp3";
 
 
-
 let playlistList1 = []; //list of playlist for project 1
 
 let tracks1 = []; //create tracks array for playlist
-tracks1.push(new Track("Trouble On My Mind",track1Path)); //add a track to tracks list new, Track(name of track,url to track)
-tracks1.push(new Track("Alive",track2Path)); //add a track to tracks list
-tracks1.push(new Track("Beats",track3Path)); //add a track to tracks list
+tracks1.push(new Track("Trouble On My Mind", track1Path)); //add a track to tracks list new, Track(name of track,url to track)
+tracks1.push(new Track("Alive", track2Path)); //add a track to tracks list
+tracks1.push(new Track("Beats", track3Path)); //add a track to tracks list
 
-playlistList1.push(new Playlist("Playlist 1", "https://i1.sndcdn.com/avatars-000010991573-yxedrc-t200x200.jpg", "This is Playlist 1", tracks1)); //playlist1 1 added
-
+playlistList1.push(new Playlist("Playlist 1", "https://i1.sndcdn.com/avatars-000010991573-yxedrc-t200x200.jpg", "This is Playlist 1 Add desk", tracks1)); //playlist1 1 added
 
 
 let track2 = [];
-track2.push(new Track("Buzz",track4Path));
-track2.push(new Track("Electro",track5Path));
-track2.push(new Track("Fader",track6Path));
+track2.push(new Track("Buzz", track4Path));
+track2.push(new Track("Electro", track5Path));
+track2.push(new Track("Fader", track6Path));
 
 playlistList1.push(new Playlist("Playlist 2", "https://i1.sndcdn.com/avatars-000010991573-yxedrc-t200x200.jpg", "This is Playlist 1", track2)); //playlist 2 added
 
-let project1 = new Project("Project 1",playlistList1); //create project EX(name,list of playlist)
+let project1 = new Project("Project 1", playlistList1); //create project EX(name,list of playlist)
 
 projects.push(project1); //push the project in projects array
 
@@ -66,23 +126,23 @@ projects.push(project1); //push the project in projects array
 let playlistList2 = []; //list of playlist in project 2
 
 let tracks3 = [];
-tracks3.push(new Track("Trance",track7Path )); //add a track to tracks list new, Track(name of track,url to track)
-tracks3.push(new Track("Back In Black",track8Path)); //add a track to tracks list
+tracks3.push(new Track("Trance", track7Path)); //add a track to tracks list new, Track(name of track,url to track)
+tracks3.push(new Track("Back In Black", track8Path)); //add a track to tracks list
 
 
-playlistList2.push(new Playlist("Playlist3","https://i1.sndcdn.com/avatars-000010991573-yxedrc-t200x200.jpg","some text",tracks3));//playlist 3 added
+playlistList2.push(new Playlist("Playlist3", "https://i1.sndcdn.com/avatars-000010991573-yxedrc-t200x200.jpg", "some text", tracks3));//playlist 3 added
 
-let project2 = new Project("Dawood",playlistList2); //create project 3 with playlists "playlistList2"
+let project2 = new Project("Dawood", playlistList2); //create project 3 with playlists "playlistList2"
 
 projects.push(project2);//push the project in projects array
-
-
-
 
 
 let project;
 
 $("document").ready(function () {
+
+
+
     let path = $(location).attr("pathname");
     let x = path.lastIndexOf("/");
     let y = path.indexOf(".");
@@ -101,19 +161,23 @@ $("document").ready(function () {
     console.log("project" + project);
 
 
-    for(let i = 0;i<project.playlistList.length;i++){
+    for (let i = 0; i < project.playlistList.length; i++) {
         let playlist = project.playlistList[i];
-        createPlaylistCard(playlist,i); //create playlist card for the playlist
-        for (let y = 0; y < playlist.tracks.length; y++) { //create waveform for each track in the playlist
-            createWave(playlist.name2, playlist.tracks[y]);
-            playlist.tracks[y].wave.load(playlist.tracks[y].path);
-        }
+        createPlaylistCard(playlist, i); //create playlist card for the playlist
+
     }
+    if (!wave) {
+        wave = createWave();
+    }
+
+    $(".container:eq(0)").css({
+        "margin-top":"250px"
+    })
 
 });
 
 //creates the playlist card
-var createPlaylistCard = function (playlist,i) {
+var createPlaylistCard = function (playlist, i) {
 
     let card = $("<div class=\"playlistCard\">\n" +
         "    <h3 class=\"playlistName\">Playlist1</h3>\n" +
@@ -135,8 +199,8 @@ var createPlaylistCard = function (playlist,i) {
     for (let i = 0; i < playlist.tracks.length; i++) { //create song card for each track in the playlist
         songList.append(createSongCard(playlist.name, playlist.tracks[i], i)); //append the each song card to corresponding playlist song list
     }
-    let div = $(".playlist:eq("+i+")");
-    div.attr("id",playlist.name2);
+    let div = $(".playlist:eq(" + i + ")");
+    div.attr("id", playlist.name2);
     div.append(card);
 };
 
@@ -146,24 +210,17 @@ var createPlaylistCard = function (playlist,i) {
 var createSongCard = function (playlistName, track, i) {
     console.log("Creating song Card");
     let card = $("<li class=\"songCard\">\n" +
-        "    <div>\n" +
-        "        <div class=\"heading\">\n" +
-        "            <p class=\"title\"><label class='duration'></label></p>\n" +
-        "        </div>\n" +
-        "        <div class=\"player\">\n" +
-        "            <button class=\"btn play\"><i class=\"fas fa-play\"></i></button>\n" +
-        "            <div class=\"wave\">\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "    </div>\n" +
+        "               <button class=\"btn play\"><i class=\"fas fa-play\"></i></button>\n" +
+        "               <p class=\"title\">This is a song</p>\n" +
         "</li>");
 
     card.find(".title").text(i + "." + track.name); //set the title of the card to track name
-    card.find(".wave").attr("id", track.name2 + "Player"); //set the wave container to track.name2+"Player"
+
     let button = card.find("button");
     button.attr("id", track.name2);
     button.on("click", function () { //add event listener to play button
         if ($(this).hasClass("play")) { //check if it is play button
+
             let buttons = $("button");
             buttons.removeClass("stop").addClass("play");
             buttons.each(function () {
@@ -177,22 +234,16 @@ var createSongCard = function (playlistName, track, i) {
             $(this).parent(".songCard").toggleClass("playing"); //add the playing class to song card for which the track was played
             $(this).find("i").removeClass("fa-play").addClass("fa-stop"); //change the button icon from play to stop
 
-            //stop every other song
-            console.log("list lenght"+project.playlistList.length);
-            for(let x = 0;x<project.playlistList.length;x++){  //stop every other track that was playing when some track was played
-                let playlist = project.playlistList[x];
-                for(let y= 0;y<playlist.tracks.length;y++){
 
-                    playlist.tracks[y].wave.stop();// stop waveform animation
-                    console.log("x");
-                }
-            }
-            track.wave.play();//start waveform animation
+            wave.load(track.path);
+            setPlayer(track);
+
         }
         else if ($(this).hasClass("stop")) { //it it has stop class
             $(this).removeClass("stop").addClass("play"); //remove stop class and add play class to the button
             $(this).find("i").removeClass("fa-stop").addClass("fa-play");//change to icon from stop to play
-            track.wave.stop();//stop waveform animation
+            console.log("playling sds ");
+            wave.stop();
         }
 
     });
@@ -200,38 +251,3 @@ var createSongCard = function (playlistName, track, i) {
     return card;
 };
 
-
-//create waveform object for each track
-var createWave = function (playlist, track) {
-    let container = track.name2 + "Player";
-    container = "#"+playlist + " #" + container;
-    console.log("container" + container);
-    let waveSurfer = WaveSurfer.create({
-        container: container, //the container in which the waveform is drawn
-        hideScrollbar: true,//hide the scroll bar for the wave
-        autoCenter: true,
-        fillParent: true,
-        height: 60,//height for the wave
-        progressColor: "#F5F5DC",//color of progress
-        cursorColor: "#007066",//cursor color
-        backend: 'MediaElement'
-
-    });
-    waveSurfer.on('ready', function () {
-        waveSurfer.stop();
-        console.log("ready");
-    });
-
-    waveSurfer.on("finish", function () {
-        console.log("finish");
-        waveSurfer.seekTo(0);
-    });
-    waveSurfer.on("seek",function (seek) {
-       console.log("seek"+seek);
-    });
-
-
-
-
-    track.wave = waveSurfer;
-};
