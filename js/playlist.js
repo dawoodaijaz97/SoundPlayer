@@ -17,6 +17,7 @@ let createWave = function () {
     waveSurfer.on('ready', function () {
         console.log("ready");
         waveSurfer.play();
+
     });
 
     waveSurfer.on("finish", function () {
@@ -28,21 +29,21 @@ let createWave = function () {
     });
     waveSurfer.on("audioprocess", function () {
 
-        let Tduration = wave.getDuration();
+        let tDuration = wave.getDuration();
         let progress = wave.getCurrentTime();
         let durationP = $(".playerCont").find(".duration");
         let min;
-        if(progress/60 <0){
-            min =0;
-        }else{
-            min = Math.floor(progress/60);
+        if (progress / 60 < 0) {
+            min = 0;
+        } else {
+            min = Math.floor(progress / 60);
         }
-        let sec = Math.floor(progress%60);
+        let sec = Math.floor(progress % 60);
 
-        let tMin = Math.floor(Tduration/60);
-        let tSec = Math.floor(Tduration%60);
+        let tMin = Math.floor(tDuration / 60);
+        let tSec = Math.floor(tDuration % 60);
 
-        durationP.text(min+":"+sec+" | "+tMin+":"+tSec);
+        durationP.text(min + ":" + sec + " | " + tMin + ":" + tSec);
 
     });
     waveSurfer.on("stop", function () {
@@ -51,7 +52,7 @@ let createWave = function () {
 
 
     return waveSurfer;
-}
+};
 
 var setPlayer = function (track) {
 
@@ -142,7 +143,6 @@ let project;
 $("document").ready(function () {
 
 
-
     let path = $(location).attr("pathname");
     let x = path.lastIndexOf("/");
     let y = path.indexOf(".");
@@ -170,9 +170,88 @@ $("document").ready(function () {
         wave = createWave();
     }
 
+    let defaultPlay =  $(".container:first").find(".songCard:first").find(".btn").attr("id");
+    $("#"+defaultPlay).trigger("click");
+
     $(".container:eq(0)").css({
-        "margin-top":"250px"
-    })
+        "margin-top": "270px"
+    });
+
+    $("#forward").on("click", function () {
+
+        let nextBtn = $(".playing").next().find(".btn");
+        console.log(nextBtn.attr("class"));
+        if (nextBtn.attr("class")) {
+            nextBtn.trigger("click");
+        }
+        else {
+            console.log("going to else");
+            let nextPlaylist = $(".playing").parents(".container").next(".container").find(".playlist").attr("id");
+            console.log(nextPlaylist);
+            for (let x = 0; x < project.playlistList.length; x++) {
+                if (project.playlistList[x].name2 === nextPlaylist) {
+                    let nextSong = project.playlistList[x].tracks[0].name2;
+                    console.log("next song =" + nextSong);
+                    $("#" + nextSong).trigger("click");
+                }
+            }
+        }
+    });
+
+    $("#backward").on("click", function () {
+        let prevBtn = $(".playing").prev().find(".btn");
+        console.log("prev song" + prevBtn.attr("id"));
+        if (prevBtn.attr("id")) {
+            prevBtn.trigger("click");
+        } else {
+            console.log("playing else");
+
+            let prevPlaylist = $(".playing").parents(".container").prev(".container").find(".playlist").attr("id");
+            console.log("prev playlist= " + prevPlaylist);
+            for (let x = 0; x < project.playlistList.length; x++) {
+                if (project.playlistList[x].name2 === prevPlaylist) {
+                    let nextSong = project.playlistList[x].tracks[project.playlistList[x].tracks.length - 1].name2;
+                    console.log("next song =" + nextSong);
+                    $("#" + nextSong).trigger("click");
+                }
+            }
+
+        }
+    });
+    $("#play").on("click", function () {
+        if ($(this).hasClass("play")) {
+            $(this).find("i").removeClass("fa-play").addClass("fa-pause");
+            $(this).removeClass("play").addClass("stop");
+            let playingSong = $(".playing").find(".btn").attr("id");
+            console.log(playingSong);
+            wave.play();
+        } else {
+            $(this).find("i").removeClass("fa-pause").addClass("fa-play");
+            $(this).removeClass("stop").addClass("play");
+            wave.pause();
+        }
+    });
+
+    $("#mute").on("click", function (event,data) {
+        console.log(data);
+        console.log(event);
+        let btn = $(this);
+        if(data){
+            btn.addClass("soundOff").removeClass("sound").find("i").addClass("fa-mute").removeClass("fa-volume-up");
+            wave.setMute(false);
+        }
+        else{
+            if (btn.hasClass("sound")) {
+                btn.addClass("soundOff").removeClass("sound").find("i").addClass("fa-mute").removeClass("fa-volume-up");
+                wave.setMute(false);
+            } else {
+                btn.addClass("sound").removeClass("soundOff").find("i").addClass("fa-volume-up").removeClass("fa-mute");
+                wave.setMute(true);
+            }
+        }
+    });
+
+
 
 });
 
@@ -221,7 +300,7 @@ var createSongCard = function (playlistName, track, i) {
     button.on("click", function () { //add event listener to play button
         if ($(this).hasClass("play")) { //check if it is play button
 
-            let buttons = $("button");
+            let buttons = $(".songCard button");
             buttons.removeClass("stop").addClass("play");
             buttons.each(function () {
                 $(this).find("i").removeClass("fa-stop").addClass("fa-play");
@@ -233,8 +312,8 @@ var createSongCard = function (playlistName, track, i) {
             });
             $(this).parent(".songCard").toggleClass("playing"); //add the playing class to song card for which the track was played
             $(this).find("i").removeClass("fa-play").addClass("fa-stop"); //change the button icon from play to stop
-
-
+            $(".playerCont").find("#play").addClass("pause").removeClass("play").find("i").removeClass("fa-play").addClass("fa-pause");
+            $("#mute").trigger("click",["play"]);
             wave.load(track.path);
             setPlayer(track);
 

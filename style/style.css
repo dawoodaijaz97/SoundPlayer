@@ -131,16 +131,15 @@ ul {
     left: 0;
     right: 0;
     margin: 0 auto;
-    background-color: rgba(0, 169, 255, 0.31);
+    background-color: transparent;
     width: 60%;
     max-width: 750px;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
-
 }
 
 
 .playerCont .heading{
     height: 45px !important;
+    background-color: rgba(0, 169, 255, 0.31);
 }
 
 .playerCont .title {
@@ -168,6 +167,32 @@ ul {
 .playerCont .wave{
     height: 60px;
     background-color: rgb(70, 94, 119);
+}
+.playerCont .btnCont{
+    text-align: center;
+    background-color: transparent;
+}
+.playerCont button{
+    margin: 10px 4%;
+    background-color: #007066;
+    border: none;
+    padding: 7px 15px;
+    font-family: 'Poiret One', cursive;
+    color: white;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #00483f;
+    transition:background-color 200ms;
+}
+
+button i {
+    padding: 0 6px;
+}
+
+button:hover i {
+    color: beige;
 }
 
 /*song card styles*/
