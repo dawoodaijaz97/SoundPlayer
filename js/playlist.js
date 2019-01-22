@@ -17,7 +17,7 @@ let createWave = function () {
     });
     waveSurfer.on('ready', function () {
         console.log("ready");
-        if (autoplay == false) {
+        if (autoplay === false) {
             autoplay = true;
         } else {
 
@@ -35,6 +35,8 @@ let createWave = function () {
     waveSurfer.on("audioprocess", function () {
 
         let tDuration = wave.getDuration();
+        let tMin = Math.floor(tDuration / 60);
+        let tSec = Math.floor(tDuration % 60);
         let progress = wave.getCurrentTime();
         let durationP = $(".playerCont").find(".duration");
         let min;
@@ -43,12 +45,15 @@ let createWave = function () {
         } else {
             min = Math.floor(progress / 60);
         }
+
         let sec = Math.floor(progress % 60);
+        if (sec < 10) {
+            durationP.text(min + ":0" + sec + " | " + tMin + ":" + tSec);
 
-        let tMin = Math.floor(tDuration / 60);
-        let tSec = Math.floor(tDuration % 60);
-
-        durationP.text(min + ":" + sec + " | " + tMin + ":" + tSec);
+        }
+        else{
+            durationP.text(min + ":" + sec + " | " + tMin + ":" + tSec);
+        }
 
     });
     waveSurfer.on("stop", function () {
@@ -177,7 +182,7 @@ $("document").ready(function () {
 
 
     $(".container:eq(0)").css({
-        "margin-top": "270px"
+        "margin-top": "250px"
     });
 
     $("#forward").on("click", function () {
@@ -258,7 +263,6 @@ $("document").ready(function () {
     $("#play").trigger("click");
 
 
-
 });
 
 //creates the playlist card
@@ -292,14 +296,14 @@ var createPlaylistCard = function (playlist, i) {
 
 //creates songsCard for each track
 
-var createSongCard = function (playlistName, track, i) {
+var createSongCard = function (playlistName, track,) {
     console.log("Creating song Card");
     let card = $("<li class=\"songCard\">\n" +
         "               <button class=\"btn play\"><i class=\"fas fa-play\"></i></button>\n" +
         "               <p class=\"title\">This is a song</p>\n" +
         "</li>");
 
-    card.find(".title").text(i + "." + track.name); //set the title of the card to track name
+    card.find(".title").text(track.name); //set the title of the card to track name
 
     let button = card.find("button");
     button.attr("id", track.name2);
@@ -335,8 +339,8 @@ var createSongCard = function (playlistName, track, i) {
 
     });
 
-    card.on("click",function () {
-       $(this).find(".btn").trigger("click");
+    card.on("click", function () {
+        $(this).find(".btn").trigger("click");
     });
 
     return card;
